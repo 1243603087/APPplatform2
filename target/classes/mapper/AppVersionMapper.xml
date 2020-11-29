@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.dao.AppVersionMapper">
+  <resultMap id="BaseResultMap" type="project.pojo.AppVersion">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="appId" jdbcType="BIGINT" property="appId" />
+    <result column="versionNo" jdbcType="VARCHAR" property="versionNo" />
+    <result column="versionInfo" jdbcType="VARCHAR" property="versionInfo" />
+    <result column="publishStatus" jdbcType="BIGINT" property="publishStatus" />
+    <result column="downloadLink" jdbcType="VARCHAR" property="downloadLink" />
+    <result column="versionSize" jdbcType="DECIMAL" property="versionSize" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="modifyBy" jdbcType="BIGINT" property="modifyBy" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="apkLocPath" jdbcType="VARCHAR" property="apkLocPath" />
+    <result column="apkFileName" jdbcType="VARCHAR" property="apkFileName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, appId, versionNo, versionInfo, publishStatus, downloadLink, versionSize, createBy, 
+    creationDate, modifyBy, modifyDate, apkLocPath, apkFileName
+  </sql>
+  <select id="selectByExample" parameterType="project.pojo.AppVersionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from app_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_version
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_version
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="project.pojo.AppVersionExample">
+    delete from app_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="project.pojo.AppVersion">
+    insert into app_version (id, appId, versionNo, 
+      versionInfo, publishStatus, downloadLink, 
+      versionSize, createBy, creationDate, 
+      modifyBy, modifyDate, apkLocPath, 
+      apkFileName)
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=BIGINT}, #{versionNo,jdbcType=VARCHAR}, 
+      #{versionInfo,jdbcType=VARCHAR}, #{publishStatus,jdbcType=BIGINT}, #{downloadLink,jdbcType=VARCHAR}, 
+      #{versionSize,jdbcType=DECIMAL}, #{createBy,jdbcType=BIGINT}, #{creationDate,jdbcType=TIMESTAMP}, 
+      #{modifyBy,jdbcType=BIGINT}, #{modifyDate,jdbcType=TIMESTAMP}, #{apkLocPath,jdbcType=VARCHAR}, 
+      #{apkFileName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="project.pojo.AppVersion">
+    insert into app_version
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appId != null">
+        appId,
+      </if>
+      <if test="versionNo != null">
+        versionNo,
+      </if>
+      <if test="versionInfo != null">
+        versionInfo,
+      </if>
+      <if test="publishStatus != null">
+        publishStatus,
+      </if>
+      <if test="downloadLink != null">
+        downloadLink,
+      </if>
+      <if test="versionSize != null">
+        versionSize,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="creationDate != null">
+        creationDate,
+      </if>
+      <if test="modifyBy != null">
+        modifyBy,
+      </if>
+      <if test="modifyDate != null">
+        modifyDate,
+      </if>
+      <if test="apkLocPath != null">
+        apkLocPath,
+      </if>
+      <if test="apkFileName != null">
+        apkFileName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="versionNo != null">
+        #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="versionInfo != null">
+        #{versionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null">
+        #{publishStatus,jdbcType=BIGINT},
+      </if>
+      <if test="downloadLink != null">
+        #{downloadLink,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSize != null">
+        #{versionSize,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        #{modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="apkLocPath != null">
+        #{apkLocPath,jdbcType=VARCHAR},
+      </if>
+      <if test="apkFileName != null">
+        #{apkFileName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="project.pojo.AppVersionExample" resultType="java.lang.Long">
+    select count(*) from app_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app_version
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.appId != null">
+        appId = #{record.appId,jdbcType=BIGINT},
+      </if>
+      <if test="record.versionNo != null">
+        versionNo = #{record.versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.versionInfo != null">
+        versionInfo = #{record.versionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishStatus != null">
+        publishStatus = #{record.publishStatus,jdbcType=BIGINT},
+      </if>
+      <if test="record.downloadLink != null">
+        downloadLink = #{record.downloadLink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.versionSize != null">
+        versionSize = #{record.versionSize,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createBy != null">
+        createBy = #{record.createBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.creationDate != null">
+        creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyBy != null">
+        modifyBy = #{record.modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.modifyDate != null">
+        modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.apkLocPath != null">
+        apkLocPath = #{record.apkLocPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.apkFileName != null">
+        apkFileName = #{record.apkFileName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app_version
+    set id = #{record.id,jdbcType=BIGINT},
+      appId = #{record.appId,jdbcType=BIGINT},
+      versionNo = #{record.versionNo,jdbcType=VARCHAR},
+      versionInfo = #{record.versionInfo,jdbcType=VARCHAR},
+      publishStatus = #{record.publishStatus,jdbcType=BIGINT},
+      downloadLink = #{record.downloadLink,jdbcType=VARCHAR},
+      versionSize = #{record.versionSize,jdbcType=DECIMAL},
+      createBy = #{record.createBy,jdbcType=BIGINT},
+      creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
+      modifyBy = #{record.modifyBy,jdbcType=BIGINT},
+      modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP},
+      apkLocPath = #{record.apkLocPath,jdbcType=VARCHAR},
+      apkFileName = #{record.apkFileName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="project.pojo.AppVersion">
+    update app_version
+    <set>
+      <if test="appId != null">
+        appId = #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="versionNo != null">
+        versionNo = #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="versionInfo != null">
+        versionInfo = #{versionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null">
+        publishStatus = #{publishStatus,jdbcType=BIGINT},
+      </if>
+      <if test="downloadLink != null">
+        downloadLink = #{downloadLink,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSize != null">
+        versionSize = #{versionSize,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="creationDate != null">
+        creationDate = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        modifyBy = #{modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null">
+        modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="apkLocPath != null">
+        apkLocPath = #{apkLocPath,jdbcType=VARCHAR},
+      </if>
+      <if test="apkFileName != null">
+        apkFileName = #{apkFileName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="project.pojo.AppVersion">
+    update app_version
+    set appId = #{appId,jdbcType=BIGINT},
+      versionNo = #{versionNo,jdbcType=VARCHAR},
+      versionInfo = #{versionInfo,jdbcType=VARCHAR},
+      publishStatus = #{publishStatus,jdbcType=BIGINT},
+      downloadLink = #{downloadLink,jdbcType=VARCHAR},
+      versionSize = #{versionSize,jdbcType=DECIMAL},
+      createBy = #{createBy,jdbcType=BIGINT},
+      creationDate = #{creationDate,jdbcType=TIMESTAMP},
+      modifyBy = #{modifyBy,jdbcType=BIGINT},
+      modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      apkLocPath = #{apkLocPath,jdbcType=VARCHAR},
+      apkFileName = #{apkFileName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

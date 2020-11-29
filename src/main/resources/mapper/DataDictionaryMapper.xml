@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.dao.DataDictionaryMapper">
+  <resultMap id="BaseResultMap" type="project.pojo.DataDictionary">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="typeCode" jdbcType="VARCHAR" property="typeCode" />
+    <result column="typeName" jdbcType="VARCHAR" property="typeName" />
+    <result column="valueId" jdbcType="BIGINT" property="valueId" />
+    <result column="valueName" jdbcType="VARCHAR" property="valueName" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdBy" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="modifyBy" jdbcType="BIGINT" property="modifyBy" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, typeCode, typeName, valueId, valueName, createdBy, creationDate, modifyBy, modifyDate
+  </sql>
+  <select id="selectByExample" parameterType="project.pojo.DataDictionaryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_dictionary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from data_dictionary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from data_dictionary
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="project.pojo.DataDictionaryExample">
+    delete from data_dictionary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="project.pojo.DataDictionary">
+    insert into data_dictionary (id, typeCode, typeName, 
+      valueId, valueName, createdBy, 
+      creationDate, modifyBy, modifyDate
+      )
+    values (#{id,jdbcType=BIGINT}, #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
+      #{valueId,jdbcType=BIGINT}, #{valueName,jdbcType=VARCHAR}, #{createdBy,jdbcType=BIGINT}, 
+      #{creationDate,jdbcType=TIMESTAMP}, #{modifyBy,jdbcType=BIGINT}, #{modifyDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="project.pojo.DataDictionary">
+    insert into data_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typeCode != null">
+        typeCode,
+      </if>
+      <if test="typeName != null">
+        typeName,
+      </if>
+      <if test="valueId != null">
+        valueId,
+      </if>
+      <if test="valueName != null">
+        valueName,
+      </if>
+      <if test="createdBy != null">
+        createdBy,
+      </if>
+      <if test="creationDate != null">
+        creationDate,
+      </if>
+      <if test="modifyBy != null">
+        modifyBy,
+      </if>
+      <if test="modifyDate != null">
+        modifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="valueId != null">
+        #{valueId,jdbcType=BIGINT},
+      </if>
+      <if test="valueName != null">
+        #{valueName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        #{modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="project.pojo.DataDictionaryExample" resultType="java.lang.Long">
+    select count(*) from data_dictionary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update data_dictionary
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.typeCode != null">
+        typeCode = #{record.typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeName != null">
+        typeName = #{record.typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valueId != null">
+        valueId = #{record.valueId,jdbcType=BIGINT},
+      </if>
+      <if test="record.valueName != null">
+        valueName = #{record.valueName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdBy != null">
+        createdBy = #{record.createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.creationDate != null">
+        creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyBy != null">
+        modifyBy = #{record.modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.modifyDate != null">
+        modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update data_dictionary
+    set id = #{record.id,jdbcType=BIGINT},
+      typeCode = #{record.typeCode,jdbcType=VARCHAR},
+      typeName = #{record.typeName,jdbcType=VARCHAR},
+      valueId = #{record.valueId,jdbcType=BIGINT},
+      valueName = #{record.valueName,jdbcType=VARCHAR},
+      createdBy = #{record.createdBy,jdbcType=BIGINT},
+      creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
+      modifyBy = #{record.modifyBy,jdbcType=BIGINT},
+      modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="project.pojo.DataDictionary">
+    update data_dictionary
+    <set>
+      <if test="typeCode != null">
+        typeCode = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        typeName = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="valueId != null">
+        valueId = #{valueId,jdbcType=BIGINT},
+      </if>
+      <if test="valueName != null">
+        valueName = #{valueName,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        createdBy = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="creationDate != null">
+        creationDate = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        modifyBy = #{modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null">
+        modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="project.pojo.DataDictionary">
+    update data_dictionary
+    set typeCode = #{typeCode,jdbcType=VARCHAR},
+      typeName = #{typeName,jdbcType=VARCHAR},
+      valueId = #{valueId,jdbcType=BIGINT},
+      valueName = #{valueName,jdbcType=VARCHAR},
+      createdBy = #{createdBy,jdbcType=BIGINT},
+      creationDate = #{creationDate,jdbcType=TIMESTAMP},
+      modifyBy = #{modifyBy,jdbcType=BIGINT},
+      modifyDate = #{modifyDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

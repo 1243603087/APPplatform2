@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.dao.DevUserMapper">
+  <resultMap id="BaseResultMap" type="project.pojo.DevUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="devCode" jdbcType="VARCHAR" property="devCode" />
+    <result column="devName" jdbcType="VARCHAR" property="devName" />
+    <result column="devPassword" jdbcType="VARCHAR" property="devPassword" />
+    <result column="devEmail" jdbcType="VARCHAR" property="devEmail" />
+    <result column="devInfo" jdbcType="VARCHAR" property="devInfo" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="modifyBy" jdbcType="BIGINT" property="modifyBy" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, devCode, devName, devPassword, devEmail, devInfo, createBy, creationDate, modifyBy, 
+    modifyDate
+  </sql>
+  <select id="selectByExample" parameterType="project.pojo.DevUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dev_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dev_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dev_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="project.pojo.DevUserExample">
+    delete from dev_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="project.pojo.DevUser">
+    insert into dev_user (id, devCode, devName, 
+      devPassword, devEmail, devInfo, 
+      createBy, creationDate, modifyBy, 
+      modifyDate)
+    values (#{id,jdbcType=BIGINT}, #{devCode,jdbcType=VARCHAR}, #{devName,jdbcType=VARCHAR}, 
+      #{devPassword,jdbcType=VARCHAR}, #{devEmail,jdbcType=VARCHAR}, #{devInfo,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=BIGINT}, #{creationDate,jdbcType=TIMESTAMP}, #{modifyBy,jdbcType=BIGINT}, 
+      #{modifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="project.pojo.DevUser">
+    insert into dev_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="devCode != null">
+        devCode,
+      </if>
+      <if test="devName != null">
+        devName,
+      </if>
+      <if test="devPassword != null">
+        devPassword,
+      </if>
+      <if test="devEmail != null">
+        devEmail,
+      </if>
+      <if test="devInfo != null">
+        devInfo,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="creationDate != null">
+        creationDate,
+      </if>
+      <if test="modifyBy != null">
+        modifyBy,
+      </if>
+      <if test="modifyDate != null">
+        modifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="devCode != null">
+        #{devCode,jdbcType=VARCHAR},
+      </if>
+      <if test="devName != null">
+        #{devName,jdbcType=VARCHAR},
+      </if>
+      <if test="devPassword != null">
+        #{devPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="devEmail != null">
+        #{devEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="devInfo != null">
+        #{devInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        #{modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="project.pojo.DevUserExample" resultType="java.lang.Long">
+    select count(*) from dev_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dev_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.devCode != null">
+        devCode = #{record.devCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devName != null">
+        devName = #{record.devName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devPassword != null">
+        devPassword = #{record.devPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devEmail != null">
+        devEmail = #{record.devEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devInfo != null">
+        devInfo = #{record.devInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        createBy = #{record.createBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.creationDate != null">
+        creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyBy != null">
+        modifyBy = #{record.modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.modifyDate != null">
+        modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dev_user
+    set id = #{record.id,jdbcType=BIGINT},
+      devCode = #{record.devCode,jdbcType=VARCHAR},
+      devName = #{record.devName,jdbcType=VARCHAR},
+      devPassword = #{record.devPassword,jdbcType=VARCHAR},
+      devEmail = #{record.devEmail,jdbcType=VARCHAR},
+      devInfo = #{record.devInfo,jdbcType=VARCHAR},
+      createBy = #{record.createBy,jdbcType=BIGINT},
+      creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
+      modifyBy = #{record.modifyBy,jdbcType=BIGINT},
+      modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="project.pojo.DevUser">
+    update dev_user
+    <set>
+      <if test="devCode != null">
+        devCode = #{devCode,jdbcType=VARCHAR},
+      </if>
+      <if test="devName != null">
+        devName = #{devName,jdbcType=VARCHAR},
+      </if>
+      <if test="devPassword != null">
+        devPassword = #{devPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="devEmail != null">
+        devEmail = #{devEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="devInfo != null">
+        devInfo = #{devInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="creationDate != null">
+        creationDate = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        modifyBy = #{modifyBy,jdbcType=BIGINT},
+      </if>
+      <if test="modifyDate != null">
+        modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="project.pojo.DevUser">
+    update dev_user
+    set devCode = #{devCode,jdbcType=VARCHAR},
+      devName = #{devName,jdbcType=VARCHAR},
+      devPassword = #{devPassword,jdbcType=VARCHAR},
+      devEmail = #{devEmail,jdbcType=VARCHAR},
+      devInfo = #{devInfo,jdbcType=VARCHAR},
+      createBy = #{createBy,jdbcType=BIGINT},
+      creationDate = #{creationDate,jdbcType=TIMESTAMP},
+      modifyBy = #{modifyBy,jdbcType=BIGINT},
+      modifyDate = #{modifyDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
