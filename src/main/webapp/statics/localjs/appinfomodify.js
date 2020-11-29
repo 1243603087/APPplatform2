@@ -5,7 +5,7 @@ function  loadCategoryLevel(pid,cl,categoryLevel){
 		data:{pid:pid},//请求参数
 		dataType:"json",//ajax接口（请求url）返回的数据类型
 		success:function(data){//data：返回数据（json对象）
-			
+
 			$("#"+categoryLevel).html("");
 			var options = "<option value=\"\">--请选择--</option>";
 			for(var i = 0; i < data.length; i++){
@@ -21,7 +21,7 @@ function  loadCategoryLevel(pid,cl,categoryLevel){
 			alert("加载分类列表失败！");
 		}
 	});
-}   
+}
 
 function delfile(id){
 	$.ajax({
@@ -41,10 +41,10 @@ function delfile(id){
 		error:function(data){//当访问时候，404，500 等非200的错误状态码
 			alert("请求错误！");
 		}
-	});  
+	});
 }
 
-$(function(){  
+$(function(){
 	//动态加载所属平台列表
 	$.ajax({
 		type:"GET",//请求类型
@@ -67,8 +67,8 @@ $(function(){
 		error:function(data){//当访问时候，404，500 等非200的错误状态码
 			alert("加载平台列表失败！");
 		}
-	});  
-	
+	});
+
 	var cl1 = $("#cl1").val();
 	var cl2 = $("#cl2").val();
 	var cl3 = $("#cl3").val();
@@ -78,7 +78,7 @@ $(function(){
 	loadCategoryLevel(cl1,cl2,"categoryLevel2");
 	//动态加载三级分类列表
 	loadCategoryLevel(cl2,cl3,"categoryLevel3");
-	
+
 	//联动效果：动态加载二级分类列表
 	$("#categoryLevel1").change(function(){
 		var categoryLevel1 = $("#categoryLevel1").val();
@@ -104,12 +104,12 @@ $(function(){
 			$("#categoryLevel3").html(options);
 		}
 	});
-	
+
 	$("#back").on("click",function(){
 		window.location.href = "list";
 	});
-	
-	
+
+
 	//LOGO图片---------------------
 	var logoPicPath = $("#logoPicPath").val();
 	var id = $("#id").val();
@@ -118,10 +118,9 @@ $(function(){
 	}else{
 		$("#logoFile").append("<p><img src=\""+logoPicPath+"?m="+Math.random()+"\" width=\"100px;\"/> &nbsp;&nbsp;"+
 							"<a href=\"javascript:;\" onclick=\"delfile('"+id+"');\">删除</a></p>");
-		
+
 	}
 
 });
-      
-      
-      
+
+

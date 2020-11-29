@@ -83,7 +83,7 @@ $(".modifyVersion").on("click",function(){
 $(".modifyAppInfo").on("click",function(){
 	var obj = $(this);
 	var status = obj.attr("status");
-	if(status == "4" || status == "6"){//待审核、审核未通过状态下才可以进行修改操作
+	if(status==4 || status == 6){//待审核、审核未通过状态下才可以进行修改操作
 		window.location.href="appinfomodify?id="+ obj.attr("appinfoid");
 	}else{
 		alert("该APP应用的状态为：【"+obj.attr("statusname")+"】,不能修改！");

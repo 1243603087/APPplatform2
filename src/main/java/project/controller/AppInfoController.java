@@ -234,12 +234,12 @@ public class AppInfoController {
 
 
 
-    //修改APP基础信息
-//    @RequestMapping(value = "/appinfomodify",method = RequestMethod.GET)
-//    public String modefyAppInfo(Integer id,Model model){
-//        appInfoService.
-//        model.addAttribute("")
-//        return "developer/appinfomodify";
-//    }
+//    修改APP基础信息
+    @RequestMapping(value = "/appinfomodify",method = RequestMethod.GET)
+    public String modefyAppInfo(Long id,Model model){
+        AppInfo appInfo = appInfoService.getAppInfoById(id);
+        model.addAttribute("appInfo",appInfo);
+        return "developer/appinfomodify";
+    }
 
 }

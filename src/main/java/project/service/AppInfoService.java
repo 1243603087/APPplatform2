@@ -23,10 +23,6 @@ public interface AppInfoService {
                                         Long queryCategoryLevel2,
                                         Long queryCategoryLevel3);
 
-    /**
-     * 模糊查询软件名称
-     */
-    PageInfo<AppInfo> getAppInfoByLikeSoftwareName(String softwareName);
 
     /**
      * 检查APKName是否重复
@@ -38,4 +34,9 @@ public interface AppInfoService {
      * 新增APP基础信息
      */
     boolean saveAPPInfo(AppInfo appInfo);
+
+    /**
+     * 通过id查询APP基础信息
+     */
+    AppInfo getAppInfoById(Long id);
 }

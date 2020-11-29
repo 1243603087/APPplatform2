@@ -30,4 +30,7 @@ public interface AppInfoMapper {
 
     //用于多表联查出app信息到applist页面展示
     List<AppInfo> selectByExampleWithOther(AppInfoExample example);
+
+    //通过id查询多表信息
+    AppInfo selectByPrimaryKeyWithOther(Long id);
 }

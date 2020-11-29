@@ -146,6 +146,8 @@
     </if>
   </select>
   <select id="selectByExample" parameterType="project.pojo.AppInfoExample" resultMap="BaseResultMap">
+
+
     select
     <if test="distinct">
       distinct
@@ -158,6 +160,15 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+  <select id="selectByPrimaryKeyWithOther" parameterType="java.lang.Long" resultMap="BaseResultMapWithOther">
+    select
+    <include refid="Base_Column_List_WithOther" />
+    from app_info app
+    left join data_dictionary dic on app.floatFormId=dic.id
+    left join data_dictionary dic2 on app.status=dic2.id
+    left join app_version aver on app.versionId=aver.id
+    where app.id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 

@@ -60,21 +60,6 @@ public class AppInfoServiceImpl implements AppInfoService {
         return appInfoPageInfo;
     }
 
-    /**
-     * 根据软件名称模糊查询
-     * @param softwareName
-     * @return
-     */
-    @Override
-    public PageInfo<AppInfo> getAppInfoByLikeSoftwareName(String softwareName) {
-        AppInfoExample appInfoExample = new AppInfoExample();
-        AppInfoExample.Criteria criteria = appInfoExample.createCriteria();
-        criteria.andSoftwareNameLike("%"+softwareName+"%");
-        PageHelper.startPage(1,5);
-        List<AppInfo> appInfos = appInfoMapper.selectByExampleWithOther(appInfoExample);
-        PageInfo<AppInfo> appInfoPageInfo = new PageInfo<>(appInfos,5);
-        return appInfoPageInfo;
-    }
 
     /**
      * 检查APKName是否重复
@@ -103,5 +88,14 @@ public class AppInfoServiceImpl implements AppInfoService {
     public boolean saveAPPInfo(AppInfo appInfo) {
         int flag = appInfoMapper.insertSelective(appInfo);
         return flag!=0;
+    }
+
+    /**
+     * 通过id查询APP基础信息
+     */
+    @Override
+    public AppInfo getAppInfoById(Long id) {
+        AppInfo appInfo = appInfoMapper.selectByPrimaryKeyWithOther(id);
+        return appInfo;
     }
 }

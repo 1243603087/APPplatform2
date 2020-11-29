@@ -78,5 +78,12 @@ public class MybatisTest {
         }
     }
 
+    @Test
+    public void select6(){
+
+        AppInfo appInfo = appInfoMapper.selectByPrimaryKeyWithOther(new Long(402));
+        System.out.println(appInfo);
+    }
+
 
 }
