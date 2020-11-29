@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.LocaleResolver;
@@ -16,8 +18,10 @@ import project.service.AppInfoService;
 import project.service.DataDictionaryService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -116,11 +120,53 @@ public class AppInfoController {
      * 新增APP基础信息
      */
     @RequestMapping("/appinfoaddsave")
-    public String saveAPPInfo(AppInfo appInfo, MultipartFile a_logoPicPath, Model model, HttpServletRequest request){
+    public String saveAPPInfo(@Valid AppInfo appInfo,
+                              BindingResult bindingResult,
+                              String softWareSize,
+                              MultipartFile a_logoPicPath,
+                              Model model,
+                              HttpServletRequest request){
+
+        //前端校验+后端JSR303校验,防止会代码的人绕过前端，直接发送保存请求，插入错误数据
+        if(bindingResult.hasErrors()){
+            model.addAttribute("fileUploadError","所有字段均不能为空");
+            //校验错误后,数据回显到前端表单
+            model.addAttribute("SubmitAppInfo",appInfo);
+            return "developer/appinfoadd";
+        }
+
+        //前后端一起判断APKName是否重复，前端只是提示APKName重复，
+        // 如果用户不理提示不修改，照样能进行保存，所以有必要进行后端校验
+            boolean flag1 = appInfoService.checkAPKName(appInfo.getAPKName());
+            if (flag1==true){
+                //重复
+                model.addAttribute("APKNameResult","APKName重复，请重新输入");
+                //校验错误后,数据回显到前端表单
+                model.addAttribute("SubmitAppInfo",appInfo);
+                return "developer/appinfoadd";
+            }
+
         //文件为空或者大小为0跳转到页面，返回错误信息
        if (a_logoPicPath!=null&&!a_logoPicPath.isEmpty()){
-           //文件有内容
-           //防止文件名重复，使用时间戳+UUID命名
+
+           //文件有内容，判断文件是否小于等于50K
+           if(a_logoPicPath.getSize()>(50*1024)){
+               model.addAttribute("fileUploadError","文件大小必须小于等于50K");
+               //校验错误后,数据回显到前端表单
+               model.addAttribute("SubmitAppInfo",appInfo);
+               return "developer/appinfoadd";
+           }
+
+           //判断文件是否为jpg、jpeg、png格式
+           String fileType = a_logoPicPath.getContentType();
+           if (!fileType.equals("image/png")&&!fileType.equals("image/jpeg")&&!fileType.equals("image/jpg")){
+               model.addAttribute("fileUploadError","上传图片格式限定为jpg、jpeg、png");
+               //校验错误后,数据回显到前端表单
+               model.addAttribute("SubmitAppInfo",appInfo);
+               return "developer/appinfoadd";
+           }
+
+           //防止文件名重复，使用UUID命名
            String originalFilename = a_logoPicPath.getOriginalFilename();
            String UUIDName = UUID.randomUUID().toString();
            int index = originalFilename.lastIndexOf(".");
@@ -135,13 +181,28 @@ public class AppInfoController {
            try {
                a_logoPicPath.transferTo(file01);
                appInfo.setLogoWebPath("statics/uploadfiles/" + newFileName);
+               //因为springMVC不能自动封装BigDecimal数据类型
+               //所以先用String接受，再转为BigDecimal类型，存入实体类种
+               if (softWareSize!=null&&!"".equals(softWareSize)){
+                   BigDecimal softWareSize01 = new BigDecimal(softWareSize);
+                   appInfo.setSoftWareSize(softWareSize01);
+               }
+               else{
+                   model.addAttribute("fileUploadError","所有字段均不能为空");
+                   //校验错误后,数据回显到前端表单
+                   model.addAttribute("SubmitAppInfo",appInfo);
+                   return "developer/appinfoadd";
+               }
+               //判断是否成功保存到数据库
                boolean flag = appInfoService.saveAPPInfo(appInfo);
                if (flag == true) {
-                   //保存成功
+                   //保存成功，跳转到最后一页
                    return "redirect:/dev/flatform/app/list?pageIndex=99999";
                } else {
                    //保存失败
                    model.addAttribute("fileUploadError", "保存失败");
+                   //校验错误后,数据回显到前端表单
+                   model.addAttribute("SubmitAppInfo",appInfo);
                    return "developer/appinfoadd";
                }
            } catch (IOException e) {
@@ -150,6 +211,8 @@ public class AppInfoController {
        }
            //文件为空
            model.addAttribute("fileUploadError","必须上传文件且文件不能为空");
+           //校验错误后,数据回显到前端表单
+           model.addAttribute("SubmitAppInfo",appInfo);
            return "developer/appinfoadd";
 
     }

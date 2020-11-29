@@ -24,9 +24,10 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input id="softwareName" class="form-control col-md-7 col-xs-12" 
+              <input id="softwareName" class="form-control col-md-7 col-xs-12"
                data-validate-length-range="20" data-validate-words="1" name="softwareName"  required="required"
-               placeholder="请输入软件名称" type="text">
+               placeholder="请输入软件名称" type="text" value="${SubmitAppInfo.softwareName}">
+              <span style="color: red">${APKNameResult}</span>
             </div>
           </div>
           <div class="item form-group">
@@ -35,7 +36,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="APKName" class="form-control col-md-7 col-xs-12" 
               	data-validate-length-range="20" data-validate-words="1" name="APKName"   required="required"
-              	placeholder="请输入APK名称" type="text">
+              	placeholder="请输入APK名称" type="text" value="${SubmitAppInfo.APKName}">
             </div>
           </div>
           
@@ -45,7 +46,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="supportROM" class="form-control col-md-7 col-xs-12" name="supportROM" 
               	data-validate-length-range="20" data-validate-words="1"   required="required"
-              	placeholder="请输入支持的ROM" type="text">
+              	placeholder="请输入支持的ROM" type="text" value="${SubmitAppInfo.supportROM}">
             </div>
           </div>
           <div class="item form-group">
@@ -54,7 +55,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="interfaceLanguage" class="form-control col-md-7 col-xs-12" 
               data-validate-length-range="20" data-validate-words="1" name="interfaceLanguage"   required="required"
-              placeholder="请输入软件支持的界面语言" type="text">
+              placeholder="请输入软件支持的界面语言" type="text" value="${SubmitAppInfo.interfaceLanguage}">
             </div>
           </div>
           <div class="item form-group">
@@ -62,7 +63,8 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="number" id="softwareSize" name="softWareSize"   required="required" onkeyup="value=value.replace(/[^\d]/g,'')"
-              data-validate-minmax="10,500"  placeholder="请输入软件大小，单位为Mb" class="form-control col-md-7 col-xs-12">
+              data-validate-minmax="10,500"  placeholder="请输入软件大小，单位为Mb" class="form-control col-md-7 col-xs-12"
+              value="${SubmitAppInfo.softWareSize}">
             </div>
           </div>
           
@@ -71,7 +73,8 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="number" id="downloads" name="downloads"   required="required"  onkeyup="value=value.replace(/[^\d]/g,'')"
-              data-validate-minmax="10,500"  placeholder="请输入下载次数" class="form-control col-md-7 col-xs-12">
+              data-validate-minmax="10,500"  placeholder="请输入下载次数" class="form-control col-md-7 col-xs-12"
+              value="${SubmitAppInfo.downloads}">
             </div>
           </div>
           
@@ -114,7 +117,8 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <textarea id="appInfo" name="appInfo"     required="required"
-              placeholder="请输入本软件的相关信息，本信息作为软件的详细信息进行软件的介绍。" class="form-control col-md-7 col-xs-12"></textarea>
+              placeholder="请输入本软件的相关信息，本信息作为软件的详细信息进行软件的介绍。" class="form-control col-md-7 col-xs-12"
+              >${SubmitAppInfo.appInfo}</textarea>
             </div>
           </div>
            <div class="item form-group">

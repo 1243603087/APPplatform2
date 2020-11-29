@@ -9,7 +9,7 @@ $(function(){
 			$("#flatformId").html("");
 			var options = "<option value=\"\">--请选择--</option>";
 			for(var i = 0; i < data.length; i++){
-				options += "<option value=\""+data[i].id+"\">"+data[i].valueName+"</option>";
+				options += "<option  value=\""+data[i].id+"\">"+data[i].valueName+"</option>";
 			}
 			$("#flatformId").html(options);
 		},

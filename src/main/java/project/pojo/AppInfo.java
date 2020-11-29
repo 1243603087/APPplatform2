@@ -1,5 +1,10 @@
 package project.pojo;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +34,16 @@ public class AppInfo {
     //三级分类，通过get方法设置值
     private String categoryLevel3Name;
 
+    @NotBlank//判断字符串非空且不为null
     private String softwareName;
 
+    @NotBlank
     private String APKName;
 
+    @NotBlank
     private String supportROM;
 
+    @NotBlank
     private String interfaceLanguage;
 
     private BigDecimal softWareSize;
@@ -43,18 +52,23 @@ public class AppInfo {
 
     private Long devId;
 
+    @NotBlank
     private String appInfo;
 
+    @NotNull//判断包装类是否为null 为null说明前端传来空串
     private Long status;
 
     private Date onSaleDate;
 
     private Date offSaleDate;
 
+    @NotNull
     private Long floatFormId;
 
+    @NotNull
     private Long categoryLevel3;
 
+    @NotNull
     private Long downloads;
 
     private Long createBy;
@@ -65,8 +79,10 @@ public class AppInfo {
 
     private Date modifyDate;
 
+    @NotNull
     private Long categoryLevel1;
 
+    @NotNull
     private Long categoryLevel2;
 
     private String logoLocPath;
