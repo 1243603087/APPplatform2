@@ -13,6 +13,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import project.pojo.AppCategory;
 import project.pojo.AppInfo;
 import project.pojo.DataDictionary;
+import project.pojo.DevUser;
 import project.service.AppCategoryService;
 import project.service.AppInfoService;
 import project.service.DataDictionaryService;
@@ -22,8 +23,11 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * @author 杨乔瀚
@@ -193,6 +197,16 @@ public class AppInfoController {
                    model.addAttribute("SubmitAppInfo",appInfo);
                    return "developer/appinfoadd";
                }
+
+               //新增APP是由哪个用户创建的，创建时间是什么时候
+               DevUser devUser = (DevUser) request.getSession().getAttribute("devUserSession");
+               appInfo.setCreateBy(devUser.getId());
+               Date currentDate = new Date();
+               SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+               String formatDate = simpleDateFormat.format(currentDate);
+               Date date01 = simpleDateFormat.parse(formatDate);
+               appInfo.setCreationDate(date01);
+
                //判断是否成功保存到数据库
                boolean flag = appInfoService.saveAPPInfo(appInfo);
                if (flag == true) {
@@ -205,7 +219,7 @@ public class AppInfoController {
                    model.addAttribute("SubmitAppInfo",appInfo);
                    return "developer/appinfoadd";
                }
-           } catch (IOException e) {
+           } catch (IOException | ParseException e) {
                e.printStackTrace();
            }
        }
@@ -216,5 +230,16 @@ public class AppInfoController {
            return "developer/appinfoadd";
 
     }
+
+
+
+
+    //修改APP基础信息
+//    @RequestMapping(value = "/appinfomodify",method = RequestMethod.GET)
+//    public String modefyAppInfo(Integer id,Model model){
+//        appInfoService.
+//        model.addAttribute("")
+//        return "developer/appinfomodify";
+//    }
 
 }
