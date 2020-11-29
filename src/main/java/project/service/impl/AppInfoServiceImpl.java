@@ -98,4 +98,14 @@ public class AppInfoServiceImpl implements AppInfoService {
         AppInfo appInfo = appInfoMapper.selectByPrimaryKeyWithOther(id);
         return appInfo;
     }
+
+    /**
+     * 更新APP基础信息
+     * @return  true==更新成功   false==更新失败
+     */
+    @Override
+    public boolean modifyAppInfoById(AppInfo appInfo) {
+        int flag = appInfoMapper.updateByPrimaryKeySelective(appInfo);
+        return flag!=0;
+    }
 }

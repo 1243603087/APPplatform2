@@ -11,7 +11,10 @@
       </div>
       <div class="x_content">
         <form class="form-horizontal form-label-left" action="appinfomodifysave" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="createBy" value="${devUserSession.id}">
+          <input type="hidden" name="creationDate" value="${appInfo.creationDate}">
           <input type="hidden" name="id" id="id" value="${appInfo.id}">
+          <input type="hidden" name="pageNum" value="${pageNum}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" >软件名称 <span class="required">*</span>
             </label>
@@ -107,6 +110,8 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
             	<input id="statusName" type="text" class="form-control col-md-7 col-xs-12" 
               	name="softwareStatus" value="${appInfo.softwareStatus}" readonly="readonly">
+<%--                因为后端对status值进行非空验证，而表单中又没有这个属性，所以此处自己添加一个隐藏属性--%>
+                <input type="hidden" name="status" value="${appInfo.status}">
             </div>
           </div>
           <div class="item form-group">
@@ -122,10 +127,12 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" >LOGO图片 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-				<input type="hidden" id="logoPicPath" name="logoPicPath" value="${appInfo.logoWebPath}"/>
+				<input type="hidden" id="logoPicPath" name="logoWebPath" value="${appInfo.logoWebPath}"/>
             	<input type="hidden" id="logoLocPath" name="logoLocPath" value="${appInfo.logoLocPath}"/>
+              //用于判断是否删除了文件
+                <input type="hidden" id="flag" name="isUploadFile">
 				<div id="uploadfile" style="display: none">
-				<input id="attach"  type="file" class="form-control col-md-7 col-xs-12" name="attach">
+				<input id="attach"  type="file" class="form-control col-md-7 col-xs-12" name="a_logoPicPath">
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过50k.2、图片格式：jpg、png、jpeg</span></p>
 				</div>
 				<div id="logoFile"></div>

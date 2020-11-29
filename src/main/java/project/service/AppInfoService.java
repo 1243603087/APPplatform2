@@ -39,4 +39,9 @@ public interface AppInfoService {
      * 通过id查询APP基础信息
      */
     AppInfo getAppInfoById(Long id);
+
+    /**
+     * 更新APP基础信息
+     */
+    boolean modifyAppInfoById(AppInfo appInfo);
 }

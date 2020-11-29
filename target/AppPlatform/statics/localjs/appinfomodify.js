@@ -32,6 +32,7 @@ function delfile(id){
 		success:function(data){//data：返回数据（json对象）
 			if(data.result == "success"){
 				alert("删除成功！");
+				$("#flag").val("true");
 				$("#uploadfile").show();
 				$("#logoFile").html('');
 			}else if(data.result == "failed"){
@@ -39,6 +40,7 @@ function delfile(id){
 			}
 		},
 		error:function(data){//当访问时候，404，500 等非200的错误状态码
+			alter(data)
 			alert("请求错误！");
 		}
 	});
@@ -56,10 +58,10 @@ $(function(){
 			$("#flatformId").html("");
 			var options = "<option value=\"\">--请选择--</option>";
 			for(var i = 0; i < data.length; i++){
-				if(fid != null && fid != undefined && data[i].valueId == fid ){
-					options += "<option selected=\"selected\" value=\""+data[i].valueId+"\" >"+data[i].valueName+"</option>";
+				if(fid != null && fid != undefined && data[i].id== fid ){
+					options += "<option selected=\"selected\" value=\""+data[i].id+"\" >"+data[i].valueName+"</option>";
 				}else{
-					options += "<option value=\""+data[i].valueId+"\">"+data[i].valueName+"</option>";
+					options += "<option value=\""+data[i].id+"\">"+data[i].valueName+"</option>";
 				}
 			}
 			$("#flatformId").html(options);
@@ -93,6 +95,7 @@ $(function(){
 		var options = "<option value=\"\">--请选择--</option>";
 		$("#categoryLevel3").html(options);
 	});
+
 	//联动效果：动态加载三级分类列表
 	$("#categoryLevel2").change(function(){
 		var categoryLevel2 = $("#categoryLevel2").val();
@@ -116,7 +119,7 @@ $(function(){
 	if(logoPicPath == null || logoPicPath == "" ){
 		$("#uploadfile").show();
 	}else{
-		$("#logoFile").append("<p><img src=\""+logoPicPath+"?m="+Math.random()+"\" width=\"100px;\"/> &nbsp;&nbsp;"+
+		$("#logoFile").append("<p><img src=\"/AppPlatform/"+logoPicPath+"?m="+Math.random()+"\" width=\"100px;\"/> &nbsp;&nbsp;"+
 							"<a href=\"javascript:;\" onclick=\"delfile('"+id+"');\">删除</a></p>");
 
 	}

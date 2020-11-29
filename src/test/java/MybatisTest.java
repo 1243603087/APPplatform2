@@ -1,5 +1,7 @@
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
+import com.mysql.cj.util.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import project.pojo.AppInfoExample;
 import project.pojo.DevUser;
 import sun.rmi.log.LogInputStream;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -83,6 +86,30 @@ public class MybatisTest {
 
         AppInfo appInfo = appInfoMapper.selectByPrimaryKeyWithOther(new Long(402));
         System.out.println(appInfo);
+    }
+
+
+    @Test
+    public void delete1(){
+        File file = new File("D:\\APPLOGOIMAGE");
+        File[] files = file.listFiles();
+        for (File file1 : files) {
+            if(file1.getName().equals("jpg55992d25-2c8e-40ef-a893-1af27fb0031d.jpg")){
+                file1.delete();
+                System.out.println("成功删除："+file1.getName());
+            }
+        }
+    }
+
+    @Test
+    public void sub(){
+       String a="statics/uploadfiles/jpgb94d68a3-58ab-4d41-a99f-72e67eaa6f63.jpg";
+        System.out.println(a.lastIndexOf("/"));
+
+        int index = a.lastIndexOf("/");
+        String a01 = a.substring(index+1);
+        System.out.println(a01);
+
     }
 
 
