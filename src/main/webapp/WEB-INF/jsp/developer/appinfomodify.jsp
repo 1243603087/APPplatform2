@@ -129,15 +129,15 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
 				<input type="hidden" id="logoPicPath" name="logoWebPath" value="${appInfo.logoWebPath}"/>
             	<input type="hidden" id="logoLocPath" name="logoLocPath" value="${appInfo.logoLocPath}"/>
-              //用于判断是否删除了文件
-                <input type="hidden" id="flag" name="isUploadFile">
 				<div id="uploadfile" style="display: none">
 				<input id="attach"  type="file" class="form-control col-md-7 col-xs-12" name="a_logoPicPath">
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过50k.2、图片格式：jpg、png、jpeg</span></p>
 				</div>
+
 				<div id="logoFile"></div>
 				${fileUploadError }
-            </div>
+                </div>
+
           </div>
           <div class="form-group">
             <div class="col-md-6 col-md-offset-3">

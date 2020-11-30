@@ -14,6 +14,7 @@ import project.pojo.AppCategory;
 import project.pojo.AppInfo;
 import project.pojo.AppInfoExample;
 import project.pojo.DevUser;
+import project.service.AppInfoService;
 import sun.rmi.log.LogInputStream;
 
 import java.io.File;
@@ -40,6 +41,9 @@ public class MybatisTest {
 
     @Autowired
     AppInfoMapper appInfoMapper;
+
+    @Autowired
+    AppInfoService appInfoService;
 
     @Test
     public void select(){
@@ -110,6 +114,17 @@ public class MybatisTest {
         String a01 = a.substring(index+1);
         System.out.println(a01);
 
+    }
+
+
+    @Test
+    public void delete(){
+
+        AppInfo appInfo = appInfoService.getAppInfoById(new  Long(468));
+        appInfo.setLogoWebPath(null);
+        appInfo.setLogoLocPath(null);
+        boolean  k= appInfoService.modifyAppInfoById(appInfo);
+        System.out.println(k);
     }
 
 

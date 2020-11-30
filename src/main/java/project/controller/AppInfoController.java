@@ -263,6 +263,10 @@ public class AppInfoController {
             if (currentFileName.equals(fileName)) {
                 //成功删除照片
                 file.delete();
+                //在磁盘成功删除文件后，还需要在数据库更新照片网络和磁盘地址为空，不然文件上传报错后不能显示文件框
+                appInfo.setLogoWebPath("");
+                appInfo.setLogoLocPath("");
+                appInfoService.modifyAppInfoById(appInfo);
                 result.put("result", "success");
                 return result;
             }
@@ -283,7 +287,6 @@ public class AppInfoController {
                                     String softWareSize,
                                     MultipartFile a_logoPicPath,
                                     Integer pageNum,
-                                    String isUploadFile,
                                     Model model,
                                     HttpServletRequest request) {
 
@@ -292,19 +295,25 @@ public class AppInfoController {
             model.addAttribute("fileUploadError", "所有字段均不能为空");
             //校验错误后,数据回显到前端表单
             model.addAttribute("appInfo", appInfo);
+            //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+            model.addAttribute("pageNum",pageNum);
             return "developer/appinfomodify";
         }
-        //等于true，说明删除了照片，必须上传文件
-        //等于false，说明没有上传文件，使用原来的文件
-        if (isUploadFile.equals("true")) {
-            //文件为空或者大小为0跳转到页面，返回错误信息
+            //文件为空或者大小为0，跳转到页面，返回错误信息
             if (a_logoPicPath != null && !a_logoPicPath.isEmpty()) {
-
+            //第一种情况：有上传文件，上传的文件有内容
                 //文件有内容，判断文件是否小于等于50K
                 if (a_logoPicPath.getSize() > (50 * 1024)) {
                     model.addAttribute("fileUploadError", "文件大小必须小于等于50K");
+                    //如果一开始到修改页面有照片，前端的LogoLocPath、LogoWebPath就有值，无论你删除照片与否都有值
+                    //此时提交更新,带过来的就是LogoLocPath、LogoWebPath有值的appinfo，虽然此时数据库的已经没值
+                    //所以为了防止把有LogoLocPath、LogoWebPath值的appinfo带回页面，造成文件框不显示，此处把两个地址置空再带回去
+                    appInfo.setLogoLocPath("");
+                    appInfo.setLogoWebPath("");
                     //校验错误后,数据回显到前端表单
                     model.addAttribute("appInfo", appInfo);
+                    //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+                    model.addAttribute("pageNum",pageNum);
                     return "developer/appinfomodify";
                 }
 
@@ -312,8 +321,15 @@ public class AppInfoController {
                 String fileType = a_logoPicPath.getContentType();
                 if (!fileType.equals("image/png") && !fileType.equals("image/jpeg") && !fileType.equals("image/jpg")) {
                     model.addAttribute("fileUploadError", "上传图片格式限定为jpg、jpeg、png");
+                    //如果一开始到修改页面有照片，前端的LogoLocPath、LogoWebPath就有值，无论你删除照片与否都有值
+                    //此时提交更新,带过来的就是LogoLocPath、LogoWebPath有值的appinfo，虽然此时数据库的已经没值
+                    //所以为了防止把有LogoLocPath、LogoWebPath值的appinfo带回页面，造成文件框不显示，此处把两个地址置空再带回去
+                    appInfo.setLogoLocPath("");
+                    appInfo.setLogoWebPath("");
                     //校验错误后,数据回显到前端表单
                     model.addAttribute("appInfo", appInfo);
+                    //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+                    model.addAttribute("pageNum",pageNum);
                     return "developer/appinfomodify";
                 }
 
@@ -341,7 +357,14 @@ public class AppInfoController {
                     } else {
                         model.addAttribute("fileUploadError", "所有字段均不能为空");
                         //校验错误后,数据回显到前端表单
+                        //如果一开始到修改页面有照片，前端的LogoLocPath、LogoWebPath就有值，无论你删除照片与否都有值
+                        //此时提交更新,带过来的就是LogoLocPath、LogoWebPath有值的appinfo，虽然此时数据库的已经没值
+                        //所以为了防止把有LogoLocPath、LogoWebPath值的appinfo带回页面，造成文件框不显示，此处把两个地址置空再带回去
+                        appInfo.setLogoLocPath("");
+                        appInfo.setLogoWebPath("");
                         model.addAttribute("appInfo", appInfo);
+                        //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+                        model.addAttribute("pageNum",pageNum);
                         return "developer/appinfomodify";
                     }
 
@@ -362,7 +385,14 @@ public class AppInfoController {
                         //更新失败
                         model.addAttribute("fileUploadError", "更新失败");
                         //校验错误后,数据回显到前端表单
+                        //如果一开始到修改页面有照片，前端的LogoLocPath、LogoWebPath就有值，无论你删除照片与否都有值
+                        //此时提交更新,带过来的就是LogoLocPath、LogoWebPath有值的appinfo，虽然此时数据库的已经没值
+                        //所以为了防止把有LogoLocPath、LogoWebPath值的appinfo带回页面，造成文件框不显示，此处把两个地址置空再带回去
+                        appInfo.setLogoLocPath("");
+                        appInfo.setLogoWebPath("");
                         model.addAttribute("appInfo", appInfo);
+                        //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+                        model.addAttribute("pageNum",pageNum);
                         return "developer/appinfomodify";
                     }
                 } catch (IOException | ParseException e) {
@@ -370,50 +400,65 @@ public class AppInfoController {
                 }
 
             }
-            //文件为空
-            model.addAttribute("fileUploadError", "必须上传文件且文件不能为空");
-            //校验错误后,数据回显到前端表单
-            model.addAttribute("appInfo", appInfo);
-            return "developer/appinfomodify";
-        }
-        //前端没有删除照片的做法
-        else {
-            //因为springMVC不能自动封装BigDecimal数据类型
-            //所以先用String接受，再转为BigDecimal类型，存入实体类种
-            if (softWareSize != null && !"".equals(softWareSize)) {
-                BigDecimal softWareSize01 = new BigDecimal(softWareSize);
-                appInfo.setSoftWareSize(softWareSize01);
-            } else {
-                model.addAttribute("fileUploadError", "所有字段均不能为空");
-                //校验错误后,数据回显到前端表单
-                model.addAttribute("appInfo", appInfo);
-                return "developer/appinfomodify";
+
+//        }
+        //第二种情况：说明数据库里还有照片地址，没有删除照片，不需要进行文件上传
+        AppInfo appInfo02 = appInfoService.getAppInfoById(appInfo.getId());
+        if (appInfo02.getLogoWebPath()!=null&&!appInfo02.getLogoWebPath().equals("")) {
+                //因为springMVC不能自动封装BigDecimal数据类型
+                //所以先用String接受，再转为BigDecimal类型，存入实体类种
+                if (softWareSize != null && !"".equals(softWareSize)) {
+                    BigDecimal softWareSize01 = new BigDecimal(softWareSize);
+                    appInfo.setSoftWareSize(softWareSize01);
+                } else {
+                    model.addAttribute("fileUploadError", "所有字段均不能为空");
+                    //校验错误后,数据回显到前端表单
+                    model.addAttribute("appInfo", appInfo);
+                    //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+                    model.addAttribute("pageNum",pageNum);
+                    return "developer/appinfomodify";
+                }
+                //添加更新者信息和更新时间
+                DevUser devUser = (DevUser) request.getSession().getAttribute("devUserSession");
+                appInfo.setModifyBy(devUser.getId());
+                Date currentDate = new Date();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formatDate = simpleDateFormat.format(currentDate);
+                Date date01 = null;
+                try {
+                    date01 = simpleDateFormat.parse(formatDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                appInfo.setModifyDate(date01);
+                //判断是否成功保存到数据库
+                boolean flag = appInfoService.modifyAppInfoById(appInfo);
+                if (flag == true) {
+                    //更新成功，跳转当前页
+                    return "redirect:/dev/flatform/app/list?pageIndex=" + pageNum;
+                } else {
+                    //更新失败
+                    model.addAttribute("fileUploadError", "更新失败");
+                    //校验错误后,数据回显到前端表单
+                    model.addAttribute("appInfo", appInfo);
+                    //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+                    model.addAttribute("pageNum",pageNum);
+                    return "developer/appinfomodify";
+                }
             }
-            //添加更新者信息和更新时间
-            DevUser devUser = (DevUser) request.getSession().getAttribute("devUserSession");
-            appInfo.setModifyBy(devUser.getId());
-            Date currentDate = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String formatDate = simpleDateFormat.format(currentDate);
-            Date date01 = null;
-            try {
-                date01 = simpleDateFormat.parse(formatDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            appInfo.setModifyDate(date01);
-            //判断是否成功保存到数据库
-            boolean flag = appInfoService.modifyAppInfoById(appInfo);
-            if (flag == true) {
-                //更新成功，跳转当前页
-                return "redirect:/dev/flatform/app/list?pageIndex=" + pageNum;
-            } else {
-                //更新失败
-                model.addAttribute("fileUploadError", "更新失败");
-                //校验错误后,数据回显到前端表单
-                model.addAttribute("appInfo", appInfo);
-                return "developer/appinfomodify";
-            }
-        }
+
+        //第三种情况:文件为空
+        model.addAttribute("fileUploadError", "必须上传文件且文件不能为空");
+        //如果一开始到修改页面有照片，前端的LogoLocPath、LogoWebPath就有值，无论你删除照片与否都有值
+        //此时提交更新,带过来的就是LogoLocPath、LogoWebPath有值的appinfo，虽然此时数据库的已经没值
+        //所以为了防止把有LogoLocPath、LogoWebPath值的appinfo带回页面，造成文件框不显示，此处把两个地址置空再带回去
+        appInfo.setLogoLocPath("");
+        appInfo.setLogoWebPath("");
+        //校验错误后,数据回显到前端表单
+        model.addAttribute("appInfo", appInfo);
+        //每次从这个页面回去到修改页面，pageNum都会丢失，导致更新成功后页面不能跳转到当前页，所以要把pageNum属性值带回去
+        model.addAttribute("pageNum",pageNum);
+        return "developer/appinfomodify";
+
     }
 }

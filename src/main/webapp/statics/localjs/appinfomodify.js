@@ -32,7 +32,6 @@ function delfile(id){
 		success:function(data){//data：返回数据（json对象）
 			if(data.result == "success"){
 				alert("删除成功！");
-				$("#flag").val("true");
 				$("#uploadfile").show();
 				$("#logoFile").html('');
 			}else if(data.result == "failed"){
