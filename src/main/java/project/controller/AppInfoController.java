@@ -7,13 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.pojo.AppCategory;
-import project.pojo.AppInfo;
-import project.pojo.DataDictionary;
-import project.pojo.DevUser;
+import project.pojo.*;
 import project.service.AppCategoryService;
 import project.service.AppInfoService;
+import project.service.AppVersionService;
 import project.service.DataDictionaryService;
+import project.util.FileDeleteUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -37,10 +36,14 @@ public class AppInfoController {
     AppInfoService appInfoService;
 
     @Autowired
+    AppVersionService appVersionService;
+
+    @Autowired
     DataDictionaryService dataDictionaryService;
 
     @Autowired
     AppCategoryService appCategoryService;
+
 
 
     /**
@@ -239,7 +242,7 @@ public class AppInfoController {
     }
 
     /**
-     * 修改页面点击删除照片，找到绝对路径删除照片
+     * 页面点击删除照片，找到绝对路径删除照片
      *
      * @param id
      * @param flag
@@ -248,21 +251,16 @@ public class AppInfoController {
     @ResponseBody
     @RequestMapping(value = "delfile.json", method = RequestMethod.GET)
     public Map<String, Object> delImageFile(Long id, String flag) {
-        AppInfo appInfo = appInfoService.getAppInfoById(id);
-        //截取路径，得到文件名
-        String logoWebPath = appInfo.getLogoWebPath();
-        int index = logoWebPath.lastIndexOf("/") + 1;
-        String fileName = logoWebPath.substring(index);
-
-        //遍历存放照片磁盘下的所有文件，知道对应文件名删除
-        File folder = new File(appInfo.getLogoLocPath());
-        File[] files = folder.listFiles();
+        AppInfo appInfo=null;
         Map<String, Object> result = new HashMap<>();
-        for (File file : files) {
-            String currentFileName = file.getName();
-            if (currentFileName.equals(fileName)) {
-                //成功删除照片
-                file.delete();
+        if(flag.equals("logo")){
+             appInfo = appInfoService.getAppInfoById(id);
+            //截取路径，得到文件名
+            String logoWebPath = appInfo.getLogoWebPath();
+            int index = logoWebPath.lastIndexOf("/") + 1;
+            String fileName = logoWebPath.substring(index);
+            boolean check = FileDeleteUtil.deleteFile(appInfo.getLogoLocPath(), fileName);
+            if (check==true){
                 //在磁盘成功删除文件后，还需要在数据库更新照片网络和磁盘地址为空，不然文件上传报错后不能显示文件框
                 appInfo.setLogoWebPath("");
                 appInfo.setLogoLocPath("");
@@ -272,9 +270,24 @@ public class AppInfoController {
             }
         }
 
-        //删除照片失败
+        if (flag.equals("apk")){
+            AppVersion appVersion = appVersionService.getAppVersionById(id);
+            String apkFileName = appVersion.getApkFileName();
+            boolean check = FileDeleteUtil.deleteFile("D:\\APPLOGOIMAGE", apkFileName);
+            if (check==true){
+                appVersion.setDownloadLink("");
+                appVersion.setApkLocPath("");
+                appVersion.setApkFileName("");
+                appVersionService.modifyAppVersionById(appVersion);
+                result.put("result", "success");
+                return result;
+            }
+        }
+//                删除照片失败
         result.put("result", "failed");
         return result;
+
+
     }
 
 

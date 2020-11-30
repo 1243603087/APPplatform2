@@ -63,7 +63,7 @@
 									<td>${appVersion.versionSize }</td>
 									<td>${appVersion.publishStatusName }</td>
 									<td>
-									<a href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
+									<a href="${pageContext.request.contextPath}/statics/uploadfiles/${appVersion.downloadLink }">${appVersion.apkFileName }</a>
 									</td>
 									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd"/></td>
 								</tr>
@@ -87,6 +87,7 @@
         <form class="form-horizontal form-label-left" action="appversionmodifysave" method="post" enctype="multipart/form-data">
            <input type="hidden" name="id" id="id" value="${appVersion.id}">
            <input type="hidden" name="appId" id="appId" value="${appVersion.appId}">
+            <input type="hidden" name="pageNum" value="${pageNum}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">版本号 <span class="required">*</span>
             </label>
@@ -100,14 +101,15 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="number" id="versionSize" name="versionSize" value="${appVersion.versionSize }"  required="required"
-              data-validate-minmax="10,500"  placeholder="请输入版本大小，单位为Mb" class="form-control col-md-7 col-xs-12">
+              data-validate-minmax="10,500"  placeholder="请输入版本大小，单位为Mb" class="form-control col-md-7 col-xs-12"
+                     onkeyup="value=value.replace(/[^\d]/g,'')">
             </div>
           </div>
        
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">发布状态 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="hidden" name="publishStatus" id="publishStatus" value="3">预发布
+              <input type="hidden" name="publishStatus" id="publishStatus" value="13">预发布
             </div>
           </div>
         
@@ -128,7 +130,7 @@
             <input type="hidden" id="apkLocPath" name="apkLocPath" value="${appVersion.apkLocPath}"/>
             <input type="hidden" id="apkFileName" name="apkFileName" value="${appVersion.apkFileName}"/>
 			<div id="uploadfile" style="display: none">
-				<input id="attach" type="file" class="form-control col-md-7 col-xs-12" name="attach">
+				<input id="attach" type="file" class="form-control col-md-7 col-xs-12" name="a_downloadLink">
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500m.2、文件类型：apk</span></p>
 			</div>
 			<div id="apkFile"></div>

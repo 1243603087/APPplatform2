@@ -32,7 +32,7 @@ $(function(){
 		$("#uploadfile").show();
 	}else{
 		$("#apkFile").append("<p>"+apkFileName+
-							"&nbsp;&nbsp;<a href=\""+downloadLink+"?m="+Math.random()+"\" >下载</a> &nbsp;&nbsp;" +
+							"&nbsp;&nbsp;<a href=\"/AppPlatform/statics/uploadfiles/"+downloadLink+"?m="+Math.random()+"\" >下载</a> &nbsp;&nbsp;" +
 							"<a href=\"javascript:;\" onclick=\"delfile('"+id+"');\">删除</a></p>");
 	}
 

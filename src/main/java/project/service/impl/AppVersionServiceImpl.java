@@ -42,4 +42,22 @@ public class AppVersionServiceImpl implements AppVersionService {
         int flag = appVersionMapper.insertSelective(appVersion);
         return flag!=0;
     }
+
+    /**
+     * 通过版本Id查询版本信息
+     */
+    @Override
+    public AppVersion getAppVersionById(Long vid) {
+        AppVersion appVersion = appVersionMapper.selectByPrimaryKey(vid);
+        return appVersion;
+    }
+
+    /**
+     * 通过id修改APP版本信息
+     */
+    @Override
+    public boolean modifyAppVersionById(AppVersion appVersion) {
+        int flag = appVersionMapper.updateByPrimaryKeySelective(appVersion);
+        return flag!=0;
+    }
 }
