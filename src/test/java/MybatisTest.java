@@ -9,11 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import project.dao.AppCategoryMapper;
 import project.dao.AppInfoMapper;
+import project.dao.AppVersionMapper;
 import project.dao.DevUserMapper;
-import project.pojo.AppCategory;
-import project.pojo.AppInfo;
-import project.pojo.AppInfoExample;
-import project.pojo.DevUser;
+import project.pojo.*;
 import project.service.AppInfoService;
 import sun.rmi.log.LogInputStream;
 
@@ -44,6 +42,9 @@ public class MybatisTest {
 
     @Autowired
     AppInfoService appInfoService;
+
+    @Autowired
+    AppVersionMapper appVersionMapper;
 
     @Test
     public void select(){
@@ -126,6 +127,19 @@ public class MybatisTest {
         boolean  k= appInfoService.modifyAppInfoById(appInfo);
         System.out.println(k);
     }
+
+    @Test
+    public void select8(){
+
+        AppVersionExample appVersionExample = new AppVersionExample();
+        AppVersionExample.Criteria criteria = appVersionExample.createCriteria();
+        criteria.andAppIdEqualTo(new Long(400));
+        List<AppVersion> appVersions = appVersionMapper.selectByExampleWithOther(appVersionExample);
+        for (AppVersion appVersion : appVersions) {
+            System.out.println(appVersion);
+        }
+    }
+
 
 
 }

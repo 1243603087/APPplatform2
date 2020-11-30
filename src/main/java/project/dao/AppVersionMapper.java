@@ -27,4 +27,7 @@ public interface AppVersionMapper {
     int updateByPrimaryKeySelective(AppVersion record);
 
     int updateByPrimaryKey(AppVersion record);
+
+    //多表查询，查出软件名和版本状态
+    List<AppVersion> selectByExampleWithOther(AppVersionExample example);
 }

@@ -63,14 +63,14 @@ $("#queryCategoryLevel2").change(function(){
 
 $(".addVersion").on("click",function(){
 	var obj = $(this);
-	window.location.href="appversionadd?id="+obj.attr("appinfoid");
+	window.location.href="appversionadd?id="+obj.attr("appinfoid")+"&pageNum="+obj.attr("pageNum");
 });
 $(".modifyVersion").on("click",function(){
 	var obj = $(this);
 	var status = obj.attr("status");
 	var versionid = obj.attr("versionid");
 	var appinfoid = obj.attr("appinfoid");
-	if(status == "1" || status == "3"){//待审核、审核未通过状态下才可以进行修改操作
+	if(status == "4" || status == "6"){//待审核、审核未通过状态下才可以进行修改操作
 		if(versionid == null || versionid == ""){
 			alert("该APP应用无版本信息，请先增加版本信息！");
 		}else{

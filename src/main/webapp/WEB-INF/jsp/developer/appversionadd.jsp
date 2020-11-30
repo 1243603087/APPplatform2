@@ -63,7 +63,7 @@
 									<td>${appVersion.versionSize }</td>
 									<td>${appVersion.publishStatusName }</td>
 									<td>
-									<a href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
+									<a href="${pageContext.request.contextPath}/statics/uploadfiles/${appVersion.downloadLink }">${appVersion.apkFileName }</a>
 									</td>
 									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd"/></td>
 								</tr>
@@ -85,7 +85,9 @@
         <div class="x_content" style="display: block;">
          <br>
         <form class="form-horizontal form-label-left" action="addversionsave" method="post" enctype="multipart/form-data">
-           <input type="hidden" name="appId" name="appId" value="${appVersion.appId}">
+           <input type="hidden" name="appId" name="appId" value="${appId}">
+<%--            用于新增完跳转到当前页--%>
+            <input type="hidden" name="pageNum" value="${pageNum}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">版本号 <span class="required">*</span>
             </label>
@@ -100,14 +102,15 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="number" id="versionSize" name="versionSize"  required="required"
-              data-validate-minmax="10,500"  placeholder="请输入版本大小，单位为Mb" class="form-control col-md-7 col-xs-12">
+              data-validate-minmax="10,500"  placeholder="请输入版本大小，单位为Mb" class="form-control col-md-7 col-xs-12"
+                     onkeyup="value=value.replace(/[^\d]/g,'')">
             </div>
           </div>
        
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">发布状态 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="hidden" name="publishStatus" id="publishStatus" value="3">预发布
+              <input type="hidden" name="publishStatus" id="publishStatus" value="13">预发布
             </div>
           </div>
         

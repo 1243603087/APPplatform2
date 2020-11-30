@@ -16,6 +16,24 @@
     <result column="apkLocPath" jdbcType="VARCHAR" property="apkLocPath" />
     <result column="apkFileName" jdbcType="VARCHAR" property="apkFileName" />
   </resultMap>
+  <resultMap id="BaseResultMapWhitOther" type="project.pojo.AppVersion">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="appId" jdbcType="BIGINT" property="appId" />
+    <result column="versionNo" jdbcType="VARCHAR" property="versionNo" />
+    <result column="versionInfo" jdbcType="VARCHAR" property="versionInfo" />
+    <result column="publishStatus" jdbcType="BIGINT" property="publishStatus" />
+    <result column="downloadLink" jdbcType="VARCHAR" property="downloadLink" />
+    <result column="versionSize" jdbcType="DECIMAL" property="versionSize" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="modifyBy" jdbcType="BIGINT" property="modifyBy" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="apkLocPath" jdbcType="VARCHAR" property="apkLocPath" />
+    <result column="apkFileName" jdbcType="VARCHAR" property="apkFileName" />
+<!--    新增字段-->
+    <result column="softwareName" property="appName"></result>
+    <result column="valueName" property="publishStatusName"></result>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -78,6 +96,9 @@
     id, appId, versionNo, versionInfo, publishStatus, downloadLink, versionSize, createBy, 
     creationDate, modifyBy, modifyDate, apkLocPath, apkFileName
   </sql>
+  <sql id="Base_Column_List_Whit_Other">
+    av.*,ai.softwareName,dd.valueName
+  </sql>
   <select id="selectByExample" parameterType="project.pojo.AppVersionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -85,6 +106,22 @@
     </if>
     <include refid="Base_Column_List" />
     from app_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithOther" parameterType="project.pojo.AppVersionExample" resultMap="BaseResultMapWhitOther">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List_Whit_Other" />
+    from app_version av
+    left join app_info ai on av.appId=ai.id
+    left join data_dictionary dd on av.publishStatus=dd.id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -120,7 +157,7 @@
       #{modifyBy,jdbcType=BIGINT}, #{modifyDate,jdbcType=TIMESTAMP}, #{apkLocPath,jdbcType=VARCHAR}, 
       #{apkFileName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="project.pojo.AppVersion">
+  <insert id="insertSelective" parameterType="project.pojo.AppVersion" keyProperty="id" useGeneratedKeys="true">
     insert into app_version
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

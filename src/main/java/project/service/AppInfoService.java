@@ -44,4 +44,6 @@ public interface AppInfoService {
      * 更新APP基础信息
      */
     boolean modifyAppInfoById(AppInfo appInfo);
+
+
 }

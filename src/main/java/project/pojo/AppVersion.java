@@ -1,17 +1,30 @@
 package project.pojo;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class AppVersion {
+
     private Long id;
+
+    //引入appName,关联appInfo表查询
+    private String appName;
+
+    //引入publishStatusName,关联data_dictionary表查询
+    private String publishStatusName;
 
     private Long appId;
 
+    @NotBlank
     private String versionNo;
 
+    @NotBlank
     private String versionInfo;
 
+    @NotNull
     private Long publishStatus;
 
     private String downloadLink;
@@ -29,6 +42,44 @@ public class AppVersion {
     private String apkLocPath;
 
     private String apkFileName;
+
+
+    @Override
+    public String toString() {
+        return "AppVersion{" +
+                "id=" + id +
+                ", appName='" + appName + '\'' +
+                ", publishStatusName='" + publishStatusName + '\'' +
+                ", appId=" + appId +
+                ", versionNo='" + versionNo + '\'' +
+                ", versionInfo='" + versionInfo + '\'' +
+                ", publishStatus=" + publishStatus +
+                ", downloadLink='" + downloadLink + '\'' +
+                ", versionSize=" + versionSize +
+                ", createBy=" + createBy +
+                ", creationDate=" + creationDate +
+                ", modifyBy=" + modifyBy +
+                ", modifyDate=" + modifyDate +
+                ", apkLocPath='" + apkLocPath + '\'' +
+                ", apkFileName='" + apkFileName + '\'' +
+                '}';
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getPublishStatusName() {
+        return publishStatusName;
+    }
+
+    public void setPublishStatusName(String publishStatusName) {
+        this.publishStatusName = publishStatusName;
+    }
 
     public Long getId() {
         return id;
