@@ -8,7 +8,7 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>
-					APP 审核列表 <i class="fa fa-user"></i><small>${userSession.userName}
+					APP 审核列表 <i class="fa fa-user"></i><small>${userSession.username}
 						- 您可以通过搜索或者其他的筛选项对APP的信息进行审核操作。^_^</small>
 				</h2>
 				<div class="clearfix"></div>
@@ -34,8 +34,8 @@
 									<c:if test="${flatFormList != null }">
 									   <option value="">--请选择--</option>
 									   <c:forEach var="dataDictionary" items="${flatFormList}">
-									   		<option <c:if test="${dataDictionary.valueId == queryFlatformId }">selected="selected"</c:if>
-									   		value="${dataDictionary.valueId}">${dataDictionary.valueName}</option>
+									   		<option <c:if test="${dataDictionary.id == queryFlatformId }">selected="selected"</c:if>
+									   		value="${dataDictionary.id}">${dataDictionary.valueName}</option>
 									   </c:forEach>
 									</c:if>
         						</select>
@@ -156,20 +156,20 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="appInfo" items="${appInfoList }" varStatus="status">
+								<c:forEach var="appInfo" items="${appInfoList.list }" varStatus="status">
 									<tr role="row" class="odd">
 										<td tabindex="0" class="sorting_1">${appInfo.softwareName}</td>
 										<td>${appInfo.APKName }</td>
-										<td>${appInfo.softwareSize }</td>
-										<td>${appInfo.flatformName }</td>
+										<td>${appInfo.softWareSize }</td>
+										<td>${appInfo.platformName }</td>
 										<td>${appInfo.categoryLevel1Name } -> ${appInfo.categoryLevel2Name } -> ${appInfo.categoryLevel3Name }</td>
-										<td>${appInfo.statusName }</td>
+										<td>${appInfo.softwareStatus }</td>
 										<td>${appInfo.downloads }</td>
 										<td>${appInfo.versionNo }</td>
 										<td>
 										<button type="button" class="btn btn-default checkApp" 
 											appinfoid="${appInfo.id }" versionid="${appInfo.versionId }" status="${appInfo.status }" 
-											statusname="${appInfo.statusName }"											
+											statusname="${appInfo.softwareStatus }"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="查看并审核APP">审核</button>
 										</td>
 									</tr>
@@ -181,33 +181,33 @@
 				<div class="row">
 					<div class="col-sm-5">
 						<div class="dataTables_info" id="datatable-responsive_info"
-							role="status" aria-live="polite">共${pages.totalCount }条记录
-							${pages.currentPageNo }/${pages.totalPageCount }页</div>
+							role="status" aria-live="polite">共${appInfoList.total }条记录
+							${appInfoList.pages }页</div>
 					</div>
 					<div class="col-sm-7">
 						<div class="dataTables_paginate paging_simple_numbers"
 							id="datatable-responsive_paginate">
 							<ul class="pagination">
-								<c:if test="${pages.currentPageNo > 1}">
+								<c:if test="${appInfoList.pageNum > 1}">
 									<li class="paginate_button previous"><a
 										href="javascript:page_nav(document.forms[0],1);"
 										aria-controls="datatable-responsive" data-dt-idx="0"
 										tabindex="0">首页</a>
 									</li>
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo-1});"
+										href="javascript:page_nav(document.forms[0],${appInfoList.pageNum-1});"
 										aria-controls="datatable-responsive" data-dt-idx="1"
 										tabindex="0">上一页</a>
 									</li>
 								</c:if>
-								<c:if test="${pages.currentPageNo < pages.totalPageCount }">
+								<c:if test="${appInfoList.pageNum < appInfoList.pages }">
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo+1 });"
+										href="javascript:page_nav(document.forms[0],${appInfoList.pageNum+1 });"
 										aria-controls="datatable-responsive" data-dt-idx="1"
 										tabindex="0">下一页</a>
 									</li>
 									<li class="paginate_button next"><a
-										href="javascript:page_nav(document.forms[0],${pages.totalPageCount });"
+										href="javascript:page_nav(document.forms[0],${appInfoList.pages });"
 										aria-controls="datatable-responsive" data-dt-idx="7"
 										tabindex="0">最后一页</a>
 									</li>

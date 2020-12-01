@@ -25,6 +25,17 @@ public interface AppInfoService {
 
 
     /**
+     *按条件分页查询待审核app信息
+     */
+    PageInfo<AppInfo> getAppInfosByStatus(Integer pn,
+                                        String querySoftwareName,
+                                        Long queryStatus,
+                                        Long queryFlatformId,
+                                        Long queryCategoryLevel1,
+                                        Long queryCategoryLevel2,
+                                        Long queryCategoryLevel3);
+
+    /**
      * 检查APKName是否重复
      * @return
      */
@@ -49,6 +60,8 @@ public interface AppInfoService {
      * 删除APP信息及版本信息
      */
     boolean delApp(Long id);
+
+
 
 
 }

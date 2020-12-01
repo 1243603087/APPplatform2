@@ -139,6 +139,7 @@ public class AppVersionController {
                 AppInfo appInfo = new AppInfo();
                 appInfo.setId(appVersion.getAppId());
                 appInfo.setVersionId(appVersion.getId());
+                appInfo.setStatus(new Long(4));
                 boolean flag02 = appInfoService.modifyAppInfoById(appInfo);
                 if (flag == true&&flag02==true) {
                     //保存成功，跳转到最后一页
@@ -297,6 +298,11 @@ public class AppVersionController {
             appVersion.setModifyDate(date01);
 
             //判断是否成功保存到数据库,保存后需要把id取回来，后续才可以更新APP基础信息中的版本id
+            //
+            AppInfo appInfo = new AppInfo();
+            appInfo.setId(appVersion.getAppId());
+            appInfo.setStatus(new Long(4));
+            appInfoService.modifyAppInfoById(appInfo);
             boolean flag = appVersionService.modifyAppVersionById(appVersion);
             if (flag == true) {
                 //更新成功，跳转到当前页

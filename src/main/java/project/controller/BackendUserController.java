@@ -31,7 +31,7 @@ public class BackendUserController {
 
         Map<String, Object> loginResult = backendUserService.login(backendUser);
         if (loginResult.get("message").equals("true")){
-            session.setAttribute("backendUserSession",loginResult.get("backendUser"));
+            session.setAttribute("userSession",loginResult.get("backendUser"));
             return "backend/main";
         }
         session.setAttribute("error","用户名或密码错误");

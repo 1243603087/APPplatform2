@@ -6,7 +6,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>查看并审核APP信息 <i class="fa fa-user"></i>${userSession.userName}</small></h2>
+        <h2>查看并审核APP信息 <i class="fa fa-user"></i>${userSession.username}</h2>
              <div class="clearfix"></div>
       </div>
       <div class="x_title">
@@ -53,7 +53,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">软件大小 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" value="${appInfo.softwareSize}"
+              <input type="text" value="${appInfo.softWareSize}"
               class="form-control col-md-7 col-xs-12" readonly="readonly">
             </div>
           </div>
@@ -71,7 +71,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">所属平台 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="text" class="form-control col-md-7 col-xs-12" 
-              	value="${appInfo.flatformName}" readonly="readonly">
+              	value="${appInfo.platformName}" readonly="readonly">
             
             </div>
           </div>
@@ -87,7 +87,7 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
             	<input type="text" class="form-control col-md-7 col-xs-12" 
-              	value="${appInfo.statusName}" readonly="readonly">
+              	value="${appInfo.softwareStatus}" readonly="readonly">
             </div>
           </div>
           <div class="item form-group">
@@ -103,21 +103,22 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
 			 <c:choose> 
-				  <c:when test="${appInfo.logoPicPath == null || appInfo.logoPicPath == ''}">   
+				  <c:when test="${appInfo.logoWebPath == null || appInfo.logoWebPath == ''}">
 				    	暂无
 				  </c:when> 
 				  <c:otherwise>   
-				    <img src="${appInfo.logoPicPath }?m=1" width="100px;"/> 
+				    <img src="${pageContext.request.contextPath}/${appInfo.logoWebPath }?m=<%=Math.random()%>>" width="100px;"/>
 				  </c:otherwise> 
               </c:choose> 
             </div>
           </div>
         	<div class="form-group">
         		<div class="col-md-6 col-md-offset-3">
-        		<button id="status" type="submit" name="status" value="2" class="btn btn-success">审核通过</button>
-        		<button id="status" type="submit" name="status" value="3" class="btn btn-success">审核不通过</button>
+        		<button id="status" type="submit" name="status" value="5" class="btn btn-success">审核通过</button>
+        		<button id="status2" type="submit" name="status" value="6" class="btn btn-success">审核不通过</button>
           		<button type="button" class="btn btn-primary" id="back">返回</button>
         		</div>
+              <p>${checkResult}</p>
      		</div>
         </form>
         </div>
@@ -174,7 +175,7 @@
 			  </c:when> 
 			  <c:otherwise>   
 			    <p>${appVersion.apkFileName}&nbsp;&nbsp;
-			    <a href="${appVersion.downloadLink}" >下载</a>
+			    <a href="${pageContext.request.contextPath}/${appVersion.apkLocPath}" >下载</a>
 			    </p>
 			  </c:otherwise> 
             </c:choose> 

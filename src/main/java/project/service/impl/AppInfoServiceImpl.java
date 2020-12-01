@@ -65,6 +65,38 @@ public class AppInfoServiceImpl implements AppInfoService {
         return appInfoPageInfo;
     }
 
+    /**
+     *按条件分页查询待审核app信息
+     */
+    @Override
+    public PageInfo<AppInfo> getAppInfosByStatus(Integer pn, String querySoftwareName, Long queryStatus, Long queryFlatformId, Long queryCategoryLevel1, Long queryCategoryLevel2, Long queryCategoryLevel3) {
+        AppInfoExample appInfoExample = new AppInfoExample();
+        AppInfoExample.Criteria criteria = appInfoExample.createCriteria();
+        criteria.andStatusEqualTo(new Long(4));
+        if (querySoftwareName!=null&&!"".equals(querySoftwareName)){
+            criteria.andSoftwareNameLike("%"+querySoftwareName+"%");
+        }
+        if (queryStatus!=null&&queryStatus!=0){
+            criteria.andStatusEqualTo(queryStatus);
+        }
+        if (queryFlatformId!=null&&queryFlatformId!=0){
+            criteria.andFloatFormIdEqualTo(queryFlatformId);
+        }
+        if (queryCategoryLevel1!=null&&queryCategoryLevel1!=0){
+            criteria.andCategoryLevel1EqualTo(queryCategoryLevel1);
+        }
+        if (queryCategoryLevel2!=null&&queryCategoryLevel2!=0){
+            criteria.andCategoryLevel2EqualTo(queryCategoryLevel2);
+        }
+        if (queryCategoryLevel3!=null&&queryCategoryLevel3!=0){
+            criteria.andCategoryLevel3EqualTo(queryCategoryLevel3);
+        }
+        PageHelper.startPage(pn,5);
+        List<AppInfo> appInfos = appInfoMapper.selectByExampleWithOther(appInfoExample);
+        PageInfo<AppInfo> appInfoPageInfo = new PageInfo<>(appInfos,5);
+        return appInfoPageInfo;
+    }
+
 
     /**
      * 检查APKName是否重复
@@ -134,6 +166,7 @@ public class AppInfoServiceImpl implements AppInfoService {
         return flag;
 
     }
+
 
 
 
