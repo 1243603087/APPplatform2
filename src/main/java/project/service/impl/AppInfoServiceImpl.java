@@ -5,8 +5,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.dao.AppInfoMapper;
+import project.dao.AppVersionMapper;
 import project.pojo.AppInfo;
 import project.pojo.AppInfoExample;
+import project.pojo.AppVersionExample;
 import project.service.AppInfoService;
 
 import java.util.List;
@@ -20,6 +22,9 @@ public class AppInfoServiceImpl implements AppInfoService {
 
     @Autowired
     AppInfoMapper appInfoMapper;
+
+    @Autowired
+    AppVersionMapper appVersionMapper;
 
     /**
      * 按条件分页查询app信息，动态组装sql
@@ -108,4 +113,28 @@ public class AppInfoServiceImpl implements AppInfoService {
         int flag = appInfoMapper.updateByPrimaryKeySelective(appInfo);
         return flag!=0;
     }
+
+    /**
+     * 删除APP信息及版本信息
+     */
+    @Override
+    public boolean delApp(Long id) {
+        AppVersionExample appVersionExample = new AppVersionExample();
+        AppVersionExample.Criteria criteria = appVersionExample.createCriteria();
+        criteria.andAppIdEqualTo(id);
+        boolean flag=false;
+        try {
+            appVersionMapper.deleteByExample(appVersionExample);
+            appInfoMapper.deleteByPrimaryKey(id);
+            flag=true;
+        }catch (Exception e){
+            e.printStackTrace();
+            flag=false;
+        }
+        return flag;
+
+    }
+
+
+
 }

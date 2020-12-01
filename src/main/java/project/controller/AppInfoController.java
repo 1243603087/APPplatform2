@@ -243,7 +243,6 @@ public class AppInfoController {
 
     /**
      * 页面点击删除照片，找到绝对路径删除照片
-     *
      * @param id
      * @param flag
      * @return
@@ -474,4 +473,91 @@ public class AppInfoController {
         return "developer/appinfomodify";
 
     }
+
+    /**
+     * 查询APP信息及对应的版本信息
+     * @param appId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/appview")
+    public String appView(Long appId,Model model){
+        AppInfo appInfo = appInfoService.getAppInfoById(appId);
+        List<AppVersion> appVersionList = appVersionService.getAppVersionList(appId);
+        model.addAttribute("appInfo",appInfo);
+        model.addAttribute("appVersionList",appVersionList);
+        return "developer/appinfoview";
+    }
+
+    /**
+     * 删除APP信息及对应的版本信息
+     */
+    @ResponseBody
+    @RequestMapping("/delapp.json")
+    public Map<String, Object> delApp(Long id){
+        boolean flag = appInfoService.delApp(id);
+        Map<String, Object> result = new HashMap<>();
+        if (flag==true){
+            result.put("delResult","true");
+            return result;
+        }
+        result.put("delResult","false");
+        return result;
+    }
+
+    /**
+     * 修改上下架
+     * @param appId
+     */
+    @ResponseBody
+    @RequestMapping(value = "sale.json/{appId}/{saleSwitch}",method = RequestMethod.POST)
+    public Map<String, Object> sale(@PathVariable("appId") Long appId,@PathVariable("saleSwitch") String saleSwitch){
+        Map<String, Object> result = new HashMap<>();
+        //上架操作
+        if (saleSwitch.equals("open")){
+            AppInfo appInfo = appInfoService.getAppInfoById(appId);
+            Long status = appInfo.getStatus();
+            if(status==5||status==8){
+                result.put("errorCode","0");
+                AppInfo appInfo01 = new AppInfo();
+                appInfo01.setStatus(new Long(7));
+                appInfo01.setId(new Long(appId));
+                boolean flag = appInfoService.modifyAppInfoById(appInfo01);
+                if (flag){
+                    result.put("resultMsg","success");
+                    return result;
+                }
+                result.put("resultMsg","failed");
+                return result;
+            }
+            result.put("errorCode","param000001");
+            return result;
+        }
+
+        //下架操作
+        if (saleSwitch.equals("close")){
+            AppInfo appInfo = appInfoService.getAppInfoById(appId);
+            Long status = appInfo.getStatus();
+            if(status==7){
+                result.put("errorCode","0");
+                AppInfo appInfo01 = new AppInfo();
+                appInfo01.setStatus(new Long(8));
+                appInfo01.setId(new Long(appId));
+                boolean flag = appInfoService.modifyAppInfoById(appInfo01);
+                if (flag){
+                    result.put("resultMsg","success");
+                    return result;
+                }
+                result.put("resultMsg","failed");
+                return result;
+            }
+            result.put("errorCode","param000001");
+            return result;
+        }
+
+        result.put("errorCode","exception000001");
+        return result;
+
+    }
+
 }

@@ -45,5 +45,10 @@ public interface AppInfoService {
      */
     boolean modifyAppInfoById(AppInfo appInfo);
 
+    /**
+     * 删除APP信息及版本信息
+     */
+    boolean delApp(Long id);
+
 
 }

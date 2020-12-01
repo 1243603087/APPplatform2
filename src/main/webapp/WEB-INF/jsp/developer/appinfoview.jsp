@@ -53,7 +53,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">软件大小 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" value="${appInfo.softwareSize}"
+              <input type="text" value="${appInfo.softWareSize}"
               class="form-control col-md-7 col-xs-12" readonly="readonly">
             </div>
           </div>
@@ -71,7 +71,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">所属平台 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="text" class="form-control col-md-7 col-xs-12" 
-              	value="${appInfo.flatformName}" readonly="readonly">
+              	value="${appInfo.platformName}" readonly="readonly">
             
             </div>
           </div>
@@ -87,7 +87,7 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
             	<input type="text" class="form-control col-md-7 col-xs-12" 
-              	value="${appInfo.statusName}" readonly="readonly">
+              	value="${appInfo.softwareStatus}" readonly="readonly">
             </div>
           </div>
           <div class="item form-group">
@@ -103,11 +103,11 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
 			 <c:choose> 
-				  <c:when test="${appInfo.logoPicPath == null || appInfo.logoPicPath == ''}">   
+				  <c:when test="${appInfo.logoLocPath == null || appInfo.logoLocPath == ''}">
 				    	暂无
 				  </c:when> 
 				  <c:otherwise>   
-				    <img src="${appInfo.logoPicPath }?m=1" width="100px;"/> 
+				    <img src="${pageContext.request.contextPath }/${appInfo.logoWebPath }?m=<%=Math.random()%>" width="100px;"/>
 				  </c:otherwise> 
               </c:choose> 
             </div>

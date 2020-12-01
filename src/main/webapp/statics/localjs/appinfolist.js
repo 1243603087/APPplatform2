@@ -105,8 +105,8 @@ $(document).on("click",".saleSwichOpen,.saleSwichClose",function(){
 
 var saleSwitchAjax = function(appId,obj){
 	$.ajax({
-		type:"PUT",
-		url:appId+"/sale.json",
+		type:"post",
+		url:"sale.json/"+appId+"/"+obj.attr("saleSwitch"),
 		dataType:"json",
 		success:function(data){
 			/*
@@ -175,7 +175,7 @@ var saleSwitchAjax = function(appId,obj){
 
 $(".viewApp").on("click",function(){
 	var obj = $(this);
-	window.location.href="appview/"+ obj.attr("appinfoid");
+	window.location.href="appview?appId="+ obj.attr("appinfoid");
 });
 
 $(".deleteApp").on("click",function(){
